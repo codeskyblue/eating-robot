@@ -25,7 +25,7 @@ def led_off():
 
 
 def eat(s: Servo):
-    sleep(.2)
+    sleep(.1)
     s.write_angle(90)
     sleep(.5)
     s.write_angle(10)
@@ -44,7 +44,7 @@ def eat(s: Servo):
     sleep(.1)
 
 
-THRESHOLD = 3200
+THRESHOLD = 3500
 
 def read_adc_value() -> int:
     v1 = adc.read()
@@ -62,6 +62,7 @@ def main():
     while True:
         value = read_adc_value()
         print("value:", value)
+        
         if value > THRESHOLD:
             led_on()
         else:
@@ -71,9 +72,10 @@ def main():
         if prev_value > THRESHOLD: # inside
             if value <= THRESHOLD: # outsize
                 sleep(.2)
-                print('action:', value)
+                print('action:', prev_value, value)
                 eat(s)
         prev_value = value
+        time.sleep_ms(10)
 
 if __name__ == '__main__':
     main()
